@@ -12,5 +12,13 @@ RSpec.describe Customer, :type => :model do
       before { subject.name = nil }
       it { is_expected.to_not be_valid }
     end
+
+    context 'when name already exists' do
+      before do
+        customer = Customer.create!(name: 'Duplicate')
+        subject.name = customer.name
+      end
+      it { is_expected.to_not be_valid }
+    end
   end
 end
