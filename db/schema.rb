@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160105144200) do
+ActiveRecord::Schema.define(version: 20160105153700) do
 
   create_table "box_contents", force: :cascade do |t|
     t.string  "code"
@@ -26,6 +26,15 @@ ActiveRecord::Schema.define(version: 20160105144200) do
   create_table "customers", force: :cascade do |t|
     t.string "name"
     t.index ["name"], name: "index_customers_on_name", unique: true
+  end
+
+  create_table "shipments", force: :cascade do |t|
+    t.integer  "customer_id"
+    t.string   "delivery_city"
+    t.datetime "requested_on"
+    t.datetime "sent_on"
+    t.datetime "received_on"
+    t.index ["customer_id"], name: "index_shipments_on_customer_id"
   end
 
 end
