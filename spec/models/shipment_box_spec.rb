@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe ShipmentBox, :type => :model do
+  describe 'class' do
+    it { expect(ShipmentBox.reflect_on_association(:shipment).macro).to eq :belongs_to }
+    it { expect(ShipmentBox.reflect_on_association(:box).macro).to eq :belongs_to }
+  end
+
   describe 'instance' do
     let(:customer) { Customer.create!(name: 'Anyone') }
     let(:shipment) { Shipment.create!(customer_id: customer.id, requested_on: 1.week.ago) }

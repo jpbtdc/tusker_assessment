@@ -9,6 +9,7 @@ class Shipment < ApplicationRecord
   validate :received_cannot_be_before_sent
   validate :cannot_be_sent_if_no_delivery_city
   belongs_to :customer
+  has_many :shipment_boxes
 
   private
 

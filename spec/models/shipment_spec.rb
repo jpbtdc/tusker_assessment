@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Shipment, :type => :model do
   describe 'class' do
     it { expect(Shipment.reflect_on_association(:customer).macro).to eq :belongs_to }
+    it { expect(Shipment.reflect_on_association(:shipment_boxes).macro).to eq :has_many }
   end
 
   describe 'instance' do
