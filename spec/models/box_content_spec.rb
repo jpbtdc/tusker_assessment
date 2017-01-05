@@ -23,5 +23,24 @@ RSpec.describe BoxContent, :type => :model do
       before { subject.box_id = nil }
       it { is_expected.to_not be_valid }
     end
+
+    context 'when content already exists within a box' do
+      before do
+        content = BoxContent.create!(box_id: box.id, code: 'AA')
+        subject.box_id = box.id
+        subject.code = content.code
+      end
+      it { is_expected.to_not be_valid }
+    end
+
+    context 'when content already exists in another box' do
+      before do
+        box2 = Box.create!(code: 'YY')
+        content = BoxContent.create!(box_id: box.id, code: 'AA')
+        subject.box_id = box2.id
+        subject.code = content.code
+      end
+      it { is_expected.to be_valid }
+    end
   end
 end
