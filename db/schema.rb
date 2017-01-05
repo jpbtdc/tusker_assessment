@@ -10,11 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160105170800) do
+ActiveRecord::Schema.define(version: 20160105172200) do
 
   create_table "box_contents", force: :cascade do |t|
     t.string  "code"
     t.integer "box_id"
+    t.index ["box_id", "code"], name: "index_box_contents_on_box_id_and_code", unique: true
     t.index ["box_id"], name: "index_box_contents_on_box_id"
   end
 
