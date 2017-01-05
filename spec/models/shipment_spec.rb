@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Shipment, :type => :model do
   describe 'instance' do
     let(:customer) { Customer.create!(name: 'Anyone') }
-    subject { Shipment.new(customer_id: customer.id) }
+    subject { Shipment.new(customer_id: customer.id, requested_on: 1.week.ago) }
 
     it { is_expected.to respond_to(:customer_id) }
     it { is_expected.to respond_to(:delivery_city) }
@@ -15,6 +15,11 @@ RSpec.describe Shipment, :type => :model do
 
     context 'when no customer' do
       before { subject.customer_id = nil }
+      it { is_expected.to_not be_valid }
+    end
+
+    context 'when no requested on' do
+      before { subject.requested_on = nil }
       it { is_expected.to_not be_valid }
     end
   end
