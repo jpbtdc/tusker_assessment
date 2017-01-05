@@ -1,5 +1,28 @@
 class Shipment < ApplicationRecord
   validates :customer_id, presence: true
   validates :requested_on, presence: true
+  validate :sent_cannot_be_before_requested
+  validate :cannot_be_received_if_not_sent
+  validate :received_cannot_be_before_sent
   belongs_to :customer
+
+  private
+
+  def sent_cannot_be_before_requested
+    if sent_on.present? && requested_on.present? && sent_on < requested_on
+      errors.add :sent_on, 'cannot be before requested on'
+    end
+  end
+
+  def cannot_be_received_if_not_sent
+    if received_on.present? && !sent_on.present?
+      errors.add :received_on, 'cannot be set if no sent on'
+    end
+  end
+
+  def received_cannot_be_before_sent
+    if received_on.present? && sent_on.present? && received_on < sent_on
+      errors.add :received_on, 'cannot be before sent on'
+    end
+  end
 end

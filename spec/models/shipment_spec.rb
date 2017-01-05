@@ -26,5 +26,26 @@ RSpec.describe Shipment, :type => :model do
       before { subject.requested_on = nil }
       it { is_expected.to_not be_valid }
     end
+
+    context 'when sent before requested' do
+      before { subject.sent_on = subject.requested_on - 1.day }
+      it { is_expected.to_not be_valid }
+    end
+
+    context 'when received but not sent' do
+      before do
+        subject.sent_on = nil
+        subject.received_on = 1.day.ago
+      end
+      it { is_expected.to_not be_valid }
+    end
+
+    context 'when received before sent' do
+      before do
+        subject.sent_on = subject.requested_on + 6.days
+        subject.received_on = subject.sent_on - 1.day
+      end
+      it { is_expected.to_not be_valid }
+    end
   end
 end
