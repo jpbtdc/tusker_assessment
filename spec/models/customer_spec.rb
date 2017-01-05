@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Customer, :type => :model do
+  describe 'class' do
+    it { expect(Customer.reflect_on_association(:shipments).macro).to eq :has_many }
+  end
+
   describe 'instance' do
     subject { Customer.new(name: 'Anyone') }
 
