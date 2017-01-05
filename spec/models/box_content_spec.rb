@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe BoxContent, :type => :model do
+  describe 'class' do
+    it { expect(BoxContent.reflect_on_association(:box).macro).to eq :belongs_to }
+  end
+
   describe 'instance' do
     let(:box) { Box.create!(code: 'XX') }
     subject { BoxContent.new(box_id: box.id, code: 'XX') }

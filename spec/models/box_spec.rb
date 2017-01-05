@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Box, :type => :model do
+  describe 'class' do
+    it { expect(Box.reflect_on_association(:box_contents).macro).to eq :has_many }
+  end
+
   describe 'instance' do
     subject { Box.new(code: 'XX') }
 
