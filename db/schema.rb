@@ -10,7 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160105135900) do
+ActiveRecord::Schema.define(version: 20160105142200) do
+
+  create_table "boxes", force: :cascade do |t|
+    t.string "code"
+    t.index ["code"], name: "index_boxes_on_code", unique: true
+  end
 
   create_table "customers", force: :cascade do |t|
     t.string "name"
