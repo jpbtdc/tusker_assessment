@@ -65,5 +65,13 @@ RSpec.describe Shipment, :type => :model do
       end
       it { is_expected.to_not be_valid }
     end
+
+    context 'when sent but no delivery city' do
+      before do
+        subject.sent_on = subject.requested_on + 6.days
+        subject.delivery_city = nil
+      end
+      it { is_expected.to_not be_valid }
+    end
   end
 end

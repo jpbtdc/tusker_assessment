@@ -7,6 +7,7 @@ class Shipment < ApplicationRecord
   validate :sent_cannot_be_before_requested
   validate :cannot_be_received_if_not_sent
   validate :received_cannot_be_before_sent
+  validate :cannot_be_sent_if_no_delivery_city
   belongs_to :customer
 
   private
@@ -44,6 +45,12 @@ class Shipment < ApplicationRecord
   def received_cannot_be_before_sent
     if received_on.present? && sent_on.present? && received_on < sent_on
       errors.add :received_on, 'cannot be before sent on'
+    end
+  end
+
+  def cannot_be_sent_if_no_delivery_city
+    if sent_on.present? && !delivery_city.present?
+      errors.add :delivery_city, 'cannot be set if no sent on'
     end
   end
 end
