@@ -1,0 +1,2 @@
+class ShipmentBox < ApplicationRecord
+end

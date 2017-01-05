@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160105153700) do
+ActiveRecord::Schema.define(version: 20160105164700) do
 
   create_table "box_contents", force: :cascade do |t|
     t.string  "code"
@@ -26,6 +26,13 @@ ActiveRecord::Schema.define(version: 20160105153700) do
   create_table "customers", force: :cascade do |t|
     t.string "name"
     t.index ["name"], name: "index_customers_on_name", unique: true
+  end
+
+  create_table "shipment_boxes", force: :cascade do |t|
+    t.integer "shipment_id"
+    t.integer "box_id"
+    t.index ["box_id"], name: "index_shipment_boxes_on_box_id"
+    t.index ["shipment_id"], name: "index_shipment_boxes_on_shipment_id"
   end
 
   create_table "shipments", force: :cascade do |t|
