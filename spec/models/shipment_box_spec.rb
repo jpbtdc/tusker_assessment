@@ -26,5 +26,15 @@ RSpec.describe ShipmentBox, :type => :model do
       before { subject.box_id = nil }
       it { is_expected.to_not be_valid }
     end
+
+    context 'when box already shipped' do
+      before do
+        customer1 = Customer.create!(name: 'Duplicate')
+        shipment1 = Shipment.create!(customer_id: customer1.id, requested_on: 1.week.ago)
+        shipment_box = ShipmentBox.create!(shipment_id: shipment1.id, box_id: box.id)
+        subject.box_id = box.id
+      end
+      it { is_expected.to_not be_valid }
+    end
   end
 end
