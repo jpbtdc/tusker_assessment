@@ -1,0 +1,2 @@
+class BoxContent < ApplicationRecord
+end
