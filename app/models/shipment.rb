@@ -1,12 +1,33 @@
 class Shipment < ApplicationRecord
   validates :customer_id, presence: true
   validates :requested_on, presence: true
+  validate :requested_cannot_be_in_the_future
+  validate :sent_cannot_be_in_the_future
+  validate :received_cannot_be_in_the_future
   validate :sent_cannot_be_before_requested
   validate :cannot_be_received_if_not_sent
   validate :received_cannot_be_before_sent
   belongs_to :customer
 
   private
+
+  def requested_cannot_be_in_the_future
+    if requested_on.present? && requested_on > Time.now
+      errors.add :requested_on, 'cannot be in the future'
+    end
+  end
+
+  def sent_cannot_be_in_the_future
+    if sent_on.present? && sent_on > Time.now
+      errors.add :sent_on, 'cannot be in the future'
+    end
+  end
+
+  def received_cannot_be_in_the_future
+    if received_on.present? && received_on > Time.now
+      errors.add :received_on, 'cannot be in the future'
+    end
+  end
 
   def sent_cannot_be_before_requested
     if sent_on.present? && requested_on.present? && sent_on < requested_on

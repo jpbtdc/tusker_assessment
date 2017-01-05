@@ -27,6 +27,24 @@ RSpec.describe Shipment, :type => :model do
       it { is_expected.to_not be_valid }
     end
 
+    context 'when requested in the future' do
+      before { subject.requested_on = Time.now + 1.day }
+      it { is_expected.to_not be_valid }
+    end
+
+    context 'when sent in the future' do
+      before { subject.sent_on = Time.now + 1.day }
+      it { is_expected.to_not be_valid }
+    end
+
+    context 'when received in the future' do
+      before do
+        subject.sent_on = subject.requested_on + 6.days
+        subject.received_on = Time.now + 1.day
+      end
+      it { is_expected.to_not be_valid }
+    end
+
     context 'when sent before requested' do
       before { subject.sent_on = subject.requested_on - 1.day }
       it { is_expected.to_not be_valid }
